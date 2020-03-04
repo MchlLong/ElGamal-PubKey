@@ -10,7 +10,7 @@ def main():
     
     print('Initialization Pretesting')
     print('Testing Miller Rabin on a large prime')
-    print(pubkey._miller_rabin(219345360441335241530872580507741777443, 500000))
+    print(pubkey._miller_rabin(219345360441335241530872580507741777443))
     print('Testing Random Prime Generation p and q')
     print(pubkey._generate_random_prime(32))
     
@@ -111,7 +111,7 @@ def main():
                 f.write(to_write[j])
                 f.close()
 
-    print("Finished")
+    print("Finished demo")
     
 
 if __name__ == '__main__':
