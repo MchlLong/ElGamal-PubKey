@@ -14,8 +14,8 @@ def encrypt(m, p, g, e2):
         c2_temp_m = m % p
         c2 = (c2_temp * c2_temp_m) % p
         return c1, c2
-    except Exception as e:
-        print(e)
+
+    except Exception:
         print("Error, encryption failed")
         return -1
 
@@ -26,6 +26,7 @@ def decrypt(c1, c2, p, g, d):
         c2_temp = c2 % p
         m = (c1_temp * c2_temp) % p
         return m
+
     except Exception:
         print("Error, decryption failed")
         return -1

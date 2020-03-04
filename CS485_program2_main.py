@@ -61,15 +61,28 @@ def main():
         f.close()
 
     # Encrypt residual message stuff
-    for i in range(len_pad):
+    if (len_pad != 0):
         print(f'Encrypting residual message')
         temp_msg = [0,0,0,0]
-        
-        
+            
+        for i in range(len_pad):
+            temp_msg[i] = ord(message[len_msg*4 + i]) 
+            temp_msg[i] = temp_msg[i] << (8 * (3-i))
+        to_encrypt = temp_msg[0] | temp_msg[1] | temp_msg[2] | temp_msg[3]
+
+        print(f'Plaintext: {to_encrypt}')
+        c = pubkey.encrypt(to_encrypt, p, g, e2)
+        print(f'Cipher Text: {c}')
+
+        f = open('ctext.txt', mode = 'a')
+        f.write(f'{c[0]} {c[1]}\n')
+        f.close()
+
     # Decryption
     print('Beginning Decryption')
     print('Reading in \'ctext.txt\' and \'prikey.txt\'')
 
+    # Get Private Key to decrypt with
     f = open('prikey.txt', mode = 'r')
     private_key = f.readline()
     f.close
@@ -78,8 +91,28 @@ def main():
     g = int(private_key[1])
     d = int(private_key[2])
 
+    # Open cipher text and begin decryption
+    f = open('ctext.txt', mode = 'r')
+    message = f.read()
+    f.close()
+    message = message.split()
 
-    print(f'Plaintext: {pubkey.decrypt(c[0], c[1], p, g, d)}')
+    # Empty plaintext to demonstrate decryption
+    f = open('ptext.txt', mode = 'w').close()
+
+    for i in range(len(message) // 2):
+        to_write = [0, 0, 0, 0]
+        temp_msg = pubkey.decrypt(int(message[i*2 + 0]), int(message[i * 2 + 1]), p, g, d)
+        for j in range(4):
+            to_write[j] = int((temp_msg >> (3-j) * 8) & 0xFF)
+            to_write[j] = chr(to_write[j])
+            if (to_write[j] != chr(0)):
+                f = open('ptext.txt', mode = 'a', newline='')
+                f.write(to_write[j])
+                f.close()
+
+    print("Finished")
+    
 
 if __name__ == '__main__':
     main()
