@@ -1,3 +1,5 @@
+Foreword: This is a demonstration of implementing an encryption algorithm and has not been vetted by the Cryptographic Community at large, this has been made for learning purposes, and not to be used in any application.
+
 1) Michael Long, michael.long.code@gmail.com
 2) CS485 Public / Private key implementation using 32 bit keys and messages. Key length can be variable
 3) Program is run with "python3 CS485_program2_main.py"
